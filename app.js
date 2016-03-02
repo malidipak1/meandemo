@@ -45,7 +45,7 @@ app.get("/complex", function (req, res) {
 				if(err) {
 					console.log("Error updating.."); 
 				} else {
-					console.log("updated successfully..");
+					console.log("updated successfully...");
 				}
 			});
 		}
