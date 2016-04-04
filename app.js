@@ -8,6 +8,9 @@ var path = require('path');
 var social = require("./rnd/social");
 app.use("/social", social);
 
+var pdf = require("./rnd/pdf_test");
+app.use("/pdf", pdf);
+
 
 app.get("/home", function(req, res){
 	console.log('hello world');
