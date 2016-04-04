@@ -19,5 +19,9 @@ arrObjectSchema.statics.findByName = function (name, callBack) {
 	  return this.find(name, callBack);
 	};
 
+arrObjectSchema.statics.findAll = function (search, callBack) {
+	  return this.find(search, callBack);
+	};
+
 
 mongoose.model('ArrayModel', arrObjectSchema);

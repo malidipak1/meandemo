@@ -3,15 +3,79 @@ var app = express();
 
 var mongoose = require("mongoose");
 
-mongoose.connect("mongodb://192.168.0.114/test");
+mongoose.connect("mongodb://localhost/test");
 
 require("./PersonModel");
 require("./ArrayModel");
-
+require("./CounterModel");
 
 var PersonModel = mongoose.model('PersonModel');
 var ArrayModel = mongoose.model('ArrayModel');
+var CounterModel = mongoose.model('CounterModel');
 
+var path = require('path');
+
+
+app.get('/fb', function (req, res) {
+	
+	console.log(path.dirname(path.dirname(__filename)));
+	var file = "";
+	res.sendFile(__dirname + '/public/fb.html');
+	});
+
+
+app.get('/google', function (req, res) {
+	
+	var file = 
+	res.sendFile(__dirname + '/public/google.html');
+	});
+
+
+app.get("/version", function(req, res) {
+	
+	ArrayModel.findAll({__v: 0}, function (err, listArray) {
+		if(err) {
+			res.json({});
+		} else {
+			res.json(listArray);
+		}
+	}); 
+	
+});
+
+app.get("/counter", function(req, res) {
+	var key = req.query.keys;
+	if(key === null || key === "undefined" || key === undefined) {
+		res.json({err: "Provide Key"});
+	} else {
+		console.log("key:" + key);
+		res.json({key: CounterModel.getNextVal(key)});
+		/*CounterModel.findById({_id:key}, function (err, objCounter) {
+			if(err) {
+				console.log(err);
+				return 0;
+			} else {
+				if(objCounter === null ) {
+					objCounter = new CounterModel({_id: key, counter: 0}); 
+				} 
+				
+				objCounter.counter += 1;
+				objCounter.save(function (err) {
+					if(err) {
+						console.log("Error updating.."); 
+						return 0;
+					} else {
+						console.log("updated successfully..");
+						res.send(''+objCounter.counter);
+					}
+				});
+				
+			}
+		});*/
+		
+	}
+	
+});
 app.get("/complex", function (req, res) {
 	var aobj = {'name':'Dipak', 'message':'Welcome'};
 	
@@ -35,12 +99,11 @@ app.get("/complex", function (req, res) {
 		}
 	});
 */	
-	ArrayModel.findByName({simpleArray:'Santosh'}, function (err, arrComplex) {
+/*	ArrayModel.findByName({simpleArray:'Santosh'}, function (err, arrComplex) {
 		if(err) {
 			console.log(err);
 		} else {
-			
-			arrComplex.objectArray.push({type: "US Office",address: "Lake Bruke", city : "New York", state : "CA", pin : 987431});
+			arrComplex.simpleArray[arrComplex.simpleArray.indexOf("Santosh")] = "Dipak";
 			arrComplex.save(function (err, cb) {
 				if(err) {
 					console.log("Error updating.."); 
@@ -50,7 +113,7 @@ app.get("/complex", function (req, res) {
 			});
 		}
 	});
-	
+	*/
 	/*
 	//in built method
 	ArrayModel.findById({_id:4}, function (err, arrComplex) {
