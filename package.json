@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.13.4",
+    "html-to-pdf": "^0.1.11",
     "mongoose": "^4.4.5",
     "pdfkit": "^0.7.2"
   }
